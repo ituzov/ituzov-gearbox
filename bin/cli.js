@@ -4,12 +4,16 @@
 
 import { execFile } from "node:child_process";
 import { existsSync, mkdirSync } from "node:fs";
-import { homedir } from "node:os";
+import { homedir, release } from "node:os";
 import { join } from "node:path";
 import { startServer } from "../src/server.js";
 import { isAvailable } from "../src/tmux.js";
 
 const DEFAULT_PORT = 4321;
+
+// WSL прикидывается линуксом, но браузер у юзера на стороне Windows —
+// запускаем его через /mnt/c. localhost из Windows в WSL2 пробрасывается сам.
+const IS_WSL = process.platform === "linux" && /microsoft/i.test(release());
 
 // Размер окна подогнан ровно под консоль коробки.
 const WIN_W = 440;
@@ -34,6 +38,11 @@ const CHROME_PATHS = {
     "/usr/bin/chromium",
     "/usr/bin/chromium-browser",
     "/usr/bin/microsoft-edge",
+  ],
+  wsl: [
+    "/mnt/c/Program Files/Google/Chrome/Application/chrome.exe",
+    "/mnt/c/Program Files (x86)/Google/Chrome/Application/chrome.exe",
+    "/mnt/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
   ],
 };
 
@@ -64,14 +73,18 @@ function screenWidth() {
 // Открывает окно-гаджет: без вкладок, размером с коробку, в правом верхнем
 // углу — если найден Chromium-браузер. Иначе фолбэк на обычную вкладку.
 async function openWindow(url) {
-  const bin = (CHROME_PATHS[process.platform] || []).find((p) => existsSync(p));
+  const key = IS_WSL ? "wsl" : process.platform;
+  const bin = (CHROME_PATHS[key] || []).find((p) => existsSync(p));
   if (bin) {
     const sw = await screenWidth();
     // Отдельный профиль заставляет Chrome стартовать новым процессом — только
     // так флаги размера/позиции гарантированно применяются (окно, «усыновлённое»
     // уже запущенным Chrome, игнорирует их и наследует фулскрин).
-    const profile = join(homedir(), ".gearbox", "chrome-profile");
-    mkdirSync(profile, { recursive: true });
+    // В WSL профиль должен лежать на стороне Windows, иначе chrome.exe его не увидит.
+    const profile = IS_WSL
+      ? "C:\\Temp\\gearbox-chrome-profile"
+      : join(homedir(), ".gearbox", "chrome-profile");
+    if (!IS_WSL) mkdirSync(profile, { recursive: true });
     const args = [
       `--app=${url}`,
       `--user-data-dir=${profile}`,
@@ -84,6 +97,11 @@ async function openWindow(url) {
     return;
   }
   // Фолбэк: браузер по умолчанию, обычное окно.
+  if (IS_WSL) {
+    // cmd.exe доступен из WSL при включённом interop (по умолчанию включён)
+    execFile("cmd.exe", ["/c", "start", "", url], () => {});
+    return;
+  }
   const cmd =
     process.platform === "darwin" ? "open" :
     process.platform === "win32" ? "cmd" :
