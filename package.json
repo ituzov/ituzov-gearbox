@@ -1,6 +1,6 @@
 {
   "name": "ituzov-gearbox",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A stick-shift gearbox for Claude Code — throw the lever, switch the model. Open source, by @ituzov.",
   "author": "Ilia Tuzov <ilia@ituzov.fun> (https://ituzovlab.ru)",
   "repository": {
