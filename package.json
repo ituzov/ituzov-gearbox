@@ -1,0 +1,38 @@
+{
+  "name": "ituzov-gearbox",
+  "version": "0.1.0",
+  "description": "A stick-shift gearbox for Claude Code — throw the lever, switch the model. Open source, by @ituzov.",
+  "author": "Ilia Tuzov <ilia@ituzov.fun> (https://ituzovlab.ru)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ituzov/ituzov-gearbox.git"
+  },
+  "homepage": "https://github.com/ituzov/ituzov-gearbox#readme",
+  "bugs": "https://github.com/ituzov/ituzov-gearbox/issues",
+  "type": "module",
+  "bin": {
+    "ituzov-gearbox": "bin/cli.js",
+    "gearbox": "bin/cli.js"
+  },
+  "scripts": {
+    "start": "node bin/cli.js"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "tmux",
+    "model-switch",
+    "gearbox",
+    "cli"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "src",
+    "public",
+    "gearbox.config.example.json"
+  ]
+}

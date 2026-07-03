@@ -1,0 +1,10 @@
+{
+  "gears": [
+    { "pos": "1", "col": 0, "row": 0, "model": "haiku",   "name": "Haiku 4.5", "desc": "fastest, quick answers" },
+    { "pos": "2", "col": 0, "row": 2, "model": "sonnet",  "name": "Sonnet 5",  "desc": "efficient, routine tasks" },
+    { "pos": "3", "col": 1, "row": 0, "model": "opus",    "name": "Opus 4.8",  "desc": "everyday, complex tasks" },
+    { "pos": "4", "col": 1, "row": 2, "model": "default", "name": "Opus 4.8 · 1M", "desc": "recommended default" },
+    { "pos": "5", "col": 2, "row": 0, "model": "fable",   "name": "Fable 5",   "desc": "most capable, hardest tasks" },
+    { "pos": "N", "col": null, "row": 1, "model": "default", "name": "Default ★", "desc": "back to default" }
+  ]
+}

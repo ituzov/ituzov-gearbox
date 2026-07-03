@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gearbox · Claude Code</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="dash">
+      <header class="dash__head">
+        <div class="brand">
+          <span class="brand__name">GEARBOX</span>
+          <span class="brand__sub">5-SPEED · CLAUDE CODE</span>
+        </div>
+        <div class="target">
+          <select id="pane" class="target__select" title="Панель tmux, где запущен Claude Code"></select>
+          <button id="refresh" class="target__refresh" title="Пересканировать панели tmux">⟳</button>
+        </div>
+      </header>
+
+      <!-- приборная панель: тахометр + табло текущей модели -->
+      <section class="cluster">
+        <svg id="tach" viewBox="0 0 200 120" aria-label="Тахометр">
+          <!-- рисуется из JS -->
+        </svg>
+        <div class="readout">
+          <div class="readout__label">MODEL</div>
+          <div id="current-model" class="readout__model">—</div>
+          <div id="current-gear" class="readout__gear">gear N</div>
+        </div>
+      </section>
+
+      <!-- сама коробка -->
+      <div class="shifter">
+        <svg id="gate" viewBox="0 0 320 400" aria-label="Кулиса коробки передач">
+          <!-- рисуется из JS -->
+        </svg>
+      </div>
+
+      <div id="status" class="status" role="status">Сканирую трансмиссию…</div>
+    </main>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
